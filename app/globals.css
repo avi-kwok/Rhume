@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+/* Rhume design tokens (DESIGN.md §10.3). Light theme only (projector). */
+:root {
+  --accent: #c8102e;
+  --ink: #1a1a1a;
+  --muted: #6b7280;
+  --line: #e5e7eb;
+  --panel: #f4f5f7;
+  --bg: #ffffff;
+
+  /* Stage colours: always paired with a text label. */
+  --stage-quiet: #e5e7eb;
+  --stage-quiet-text: var(--ink);
+  --stage-watch: #fbe3e7;
+  --stage-watch-text: var(--accent);
+  --stage-rising: #f2a7b3;
+  --stage-rising-text: var(--ink);
+  --stage-peaking: #c8102e;
+  --stage-peaking-text: #ffffff;
+  --stage-falling: #9ca3af;
+  --stage-falling-text: #ffffff;
+
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-accent: var(--accent);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-panel: var(--panel);
+  --color-bg: var(--bg);
+
+  --color-stage-quiet: var(--stage-quiet);
+  --color-stage-quiet-text: var(--stage-quiet-text);
+  --color-stage-watch: var(--stage-watch);
+  --color-stage-watch-text: var(--stage-watch-text);
+  --color-stage-rising: var(--stage-rising);
+  --color-stage-rising-text: var(--stage-rising-text);
+  --color-stage-peaking: var(--stage-peaking);
+  --color-stage-peaking-text: var(--stage-peaking-text);
+  --color-stage-falling: var(--stage-falling);
+  --color-stage-falling-text: var(--stage-falling-text);
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 4px;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* Numbers are tabular everywhere. */
+.tabular,
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Section labels: letter-spaced uppercase 12px muted. */
+.section-label {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Focus ring in accent (accessibility, §10.4). */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Flat card: 1px line border, 4px radius, no shadow (DESIGN.md §10.3). */
+.card {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg);
+}
+
+/* Buttons: primary = accent background, white text; secondary = white with 1px ink border. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  padding: 0.3125rem 0.75rem;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms, color 120ms, border-color 120ms;
+}
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff;
+}
+.btn-primary:hover:not(:disabled) {
+  background: #a50d26;
+  border-color: #a50d26;
+}
+.btn-secondary {
+  background: var(--bg);
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: var(--panel);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.btn-ghost:hover:not(:disabled) {
+  background: var(--panel);
+}
+.btn-sm {
+  padding: 0.1875rem 0.5rem;
+  font-size: 12px;
+}
+.btn[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #ffffff;
+}
+
+/* Range inputs (timeline slider) in the accent colour. */
+input[type="range"] {
+  accent-color: var(--accent);
+}
+
+/* Evidence spans (DESIGN.md §9.2): every rendered number in a brief is traceable to its field. */
+.evidence {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  border-bottom: 1px dotted var(--muted);
+  cursor: help;
+}
+.evidence[role="button"] {
+  cursor: pointer;
+}
+.evidence:hover,
+.evidence:focus-visible {
+  background: var(--stage-watch);
+  border-bottom-color: var(--accent);
+}
+
+/* Skeleton blocks while a brief or summary loads. */
+.skeleton {
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--panel) 0%, var(--line) 50%, var(--panel) 100%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.2s ease-in-out infinite;
+}
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* The brief drawer is the only element with a shadow (DESIGN.md §10.3). */
+.drawer-shadow {
+  box-shadow: -8px 0 24px rgba(26, 26, 26, 0.16);
+}
